@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration >
+	<appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="[%d{dd-MM-yyyy HH:mm:ss}] [%level] [%class] %M() [%L] - %msg %xEx%n" />
+		</Console>
+		<File name="tracelog" fileName="${sys:user.home}/.Calotes/logs/trace.log" append="true">
+			<PatternLayout pattern="[%d{dd-MM-yyyy HH:mm:ss}] [%level] [%class] %M() [%L] - %msg  %xEx%n" />
+		</File>
+		<File name="debuglog" fileName="${sys:user.home}/.Calotes/logs/debug.log" append="true">
+			<PatternLayout pattern="[%d{dd-MM-yyyy HH:mm:ss}] [%level] [%class] %M() [%L] - %msg %xEx%n" />
+		</File>
+		<File name="infolog" fileName="${sys:user.home}/.Calotes/logs/info.log" append="true">
+			<PatternLayout pattern="[%d{dd-MM-yyyy HH:mm:ss}] [%level] [%class] %M() [%L] - %msg %xEx%n" />
+		</File>
+		<File name="warnlog" fileName="${sys:user.home}/.Calotes/logs/warn.log" append="true">
+			<PatternLayout pattern="[%d{dd-MM-yyyy HH:mm:ss}] [%level] [%class] %M() [%L] - %msg %xEx%n" />
+		</File>
+		<File name="errorlog" fileName="${sys:user.home}/.Calotes/logs/error.log" append="true">
+			<PatternLayout pattern="[%d{dd-MM-yyyy HH:mm:ss}] [%level] [%class] %M() [%L] - %msg %xEx%n" />
+		</File>
+		<File name="fatallog" fileName="${sys:user.home}/.Calotes/logs/fatal.log" append="true">
+			<PatternLayout pattern="[%d{dd-MM-yyyy HH:mm:ss}] [%level] [%class] %M() [%L] - %msg %xEx%n" />
+		</File>
+	</appenders>
+	<loggers>
+		<root level="trace">
+			<appender-ref ref="Console" />
+			<appender-ref ref="tracelog" level="trace" />
+			<appender-ref ref="debuglog" level="debug" />
+		</root>
+	</loggers>
+</configuration>

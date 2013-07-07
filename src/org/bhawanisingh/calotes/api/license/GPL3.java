@@ -1,0 +1,31 @@
+package org.bhawanisingh.calotes.api.license;
+
+public class GPL3 extends GenericLicense {
+
+	public GPL3() {
+		LICENSE_NAME = "GPL3";
+		// Do's
+		COMMERCIAL_USE = DO;
+		DISTRIBUTE = DO;
+		MODIFY = DO;		
+		WARRANTY = DO;
+
+		// Don'ts
+		HOLD_LIABLE = DO_NOT;
+		SUBLICENSE = DO_NOT;
+
+		// Must
+		DISCLOSE_SOURCE = MUST;
+		INCLUDE_LICENSE = MUST;
+		STATE_CHANGES = MUST;
+
+		// NotApplicable
+		INCLUDE_COPYRIGHT_NOTICE = NOT_APPLICABLE;
+		INCLUDE_ORIGINAL = NOT_APPLICABLE;
+		NON_STATIC_LINKAGE = NOT_APPLICABLE;		
+		PRIVATE_USE = NOT_APPLICABLE;
+		RENAME = NOT_APPLICABLE;
+		USE_TRADEMARK = NOT_APPLICABLE;
+
+	}
+}

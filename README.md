@@ -1,11 +1,11 @@
-Demo
+Calotes
 ====
 All the code is licensed Under GNU GPL v3
-====
 
 An open source application to add license to your source code.
 
 Currently supported languages are:
+
 	1. Java
 	2. C/C++
 	3. Python
@@ -13,6 +13,7 @@ Currently supported languages are:
 	5. Javascript
 	
 Currently supports following file extensions
+
 	1. java
 	2. cs
 	3. c

@@ -7,7 +7,7 @@ import org.bhawanisingh.calotes.gui.MainGUI;
 
 public class LaunchCalotes {
 
-	 public static void main(String[] args) {
+	public static void main(String[] args) {
 		try {
 			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) {
@@ -23,7 +23,5 @@ public class LaunchCalotes {
 		}
 		TempDirs.createTempDirs();
 		new MainGUI();
-//		new CustomLicenseDialog();
-//		new LicenseSelector();
 	}
 }

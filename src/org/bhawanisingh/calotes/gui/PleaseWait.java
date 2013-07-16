@@ -58,16 +58,12 @@ public class PleaseWait extends JComponent implements Runnable, MouseListener, K
 		this.tickerInner = this.buildTicker(false);
 		this.setVisible(true);
 		this.waitThread = new Thread(this);
-		System.out.println("running");
 		this.waitThread.start();
-		System.out.println("running35343");
 	}
 
 	@Override
 	public void run() {
-		System.out.println("Start running");
 		while (this.cont) {
-			System.out.println("I am running");
 			try {
 				Thread.sleep(100);
 				this.rotateTicker();
@@ -218,11 +214,6 @@ public class PleaseWait extends JComponent implements Runnable, MouseListener, K
 	public void focusGained(FocusEvent e) {
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
-	 */
 	@Override
 	public void focusLost(FocusEvent e) {
 		if (this.isVisible()) {
@@ -231,9 +222,6 @@ public class PleaseWait extends JComponent implements Runnable, MouseListener, K
 
 	}
 
-	/**
-	 * @return the waitThread
-	 */
 	public Thread getWaitThread() {
 		return this.waitThread;
 	}

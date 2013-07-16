@@ -35,18 +35,20 @@ import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.WindowConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.bhawanisingh.calotes.api.util.DeleteTempFiles;
-import org.bhawanisingh.calotes.api.util.FileNames;
-import org.bhawanisingh.calotes.api.util.GenerateTempLicense;
 import org.bhawanisingh.calotes.api.addlicense.AddLicense;
 import org.bhawanisingh.calotes.api.logging.ExceptionLogger;
 import org.bhawanisingh.calotes.api.logging.LoggerValues;
 import org.bhawanisingh.calotes.api.removelicense.RemoveLicense;
+import org.bhawanisingh.calotes.api.util.DeleteTempFiles;
+import org.bhawanisingh.calotes.api.util.FileNames;
+import org.bhawanisingh.calotes.api.util.GenerateTempLicense;
 
 public class MainGUI extends JFrame {
 
@@ -93,268 +95,271 @@ public class MainGUI extends JFrame {
 	private JLabel bottomLabel;
 
 	public MainGUI() {
-		mainGUILogger.entry();
-		initialize();
-		themeing();
-		addComponents();
-		addEvents();
-		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.mainGUILogger.entry();
+		this.initialize();
+		this.themeing();
+		this.addComponents();
+		this.addEvents();
+		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		this.pack();
 		this.setTitle(FileNames.PROGRAM_NAME + " : " + FileNames.PROGRAM_VERSION);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
-//		new LicenseSelector(this, bufferedImage);
-		mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+		// new LicenseGenerator(this, this.bufferedImage);
+		this.mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 	}
 
 	private void initialize() {
-		mainGUILogger.entry();
+		this.mainGUILogger.entry();
 		try {
-			bufferedImage = ImageIO.read(MainGUI.class.getResource("/background.jpg"));
+			this.bufferedImage = ImageIO.read(MainGUI.class.getResource("/background.jpg"));
 		} catch (IOException e) {
-			mainGUILogger.error("Error In Loading \"background.jpg\"", e);
-			ExceptionLogger.loggerIOException(mainGUILogger, e);
+			this.mainGUILogger.error("Error In Loading \"background.jpg\"", e);
+			ExceptionLogger.loggerIOException(this.mainGUILogger, e);
 		}
-		mainPanel = new JPanel(new GridBagLayout()) {
+		this.mainPanel = new JPanel(new GridBagLayout()) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(bufferedImage, 0, 0, getWidth(), getHeight(), this);
+				g.drawImage(MainGUI.this.bufferedImage, 0, 0, this.getWidth(), this.getHeight(), this);
 				g.setColor(new Color(0, 153, 204, 30));
-				g.fillRect(0, 0, getWidth(), getHeight());
+				g.fillRect(0, 0, this.getWidth(), this.getHeight());
 			}
 		};
 
-		mainMenuBar = new JMenuBar();
-		separator = new JSeparator();
-		fileMenu = new JMenu("File");
-		selectLicenseItem = new JMenuItem("Select License", KeyEvent.VK_S);
-		selectLicenseItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.ALT_MASK));
-		customLicenseItem = new JMenuItem("Custom License", KeyEvent.VK_C);
-		customLicenseItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.ALT_MASK));
-		restartItem = new JMenuItem("Restart", KeyEvent.VK_R);
-		restartItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));
-		exitItem = new JMenuItem("Exit", KeyEvent.VK_E);
-		exitItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
-		helpMenu = new JMenu("Help");
-		aboutItem = new JMenuItem("About", KeyEvent.VK_A);
-		aboutItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.ALT_MASK));
+		this.mainMenuBar = new JMenuBar();
+		this.separator = new JSeparator();
+		this.fileMenu = new JMenu("File");
+		this.selectLicenseItem = new JMenuItem("Select License", KeyEvent.VK_S);
+		this.selectLicenseItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.ALT_MASK));
+		this.customLicenseItem = new JMenuItem("Custom License", KeyEvent.VK_C);
+		this.customLicenseItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.ALT_MASK));
+		this.restartItem = new JMenuItem("Restart", KeyEvent.VK_R);
+		this.restartItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));
+		this.exitItem = new JMenuItem("Exit", KeyEvent.VK_E);
+		this.exitItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
+		this.helpMenu = new JMenu("Help");
+		this.aboutItem = new JMenuItem("About", KeyEvent.VK_A);
+		this.aboutItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.ALT_MASK));
 
-		locationLabel = new JLabel("Source Folder :");
-		srcPathField = new JTextField("/home/bhawani/Desktop/print/testfolder");
-		srcPathField.setOpaque(false);
-		browseButton = new JButton("Browse");
+		this.locationLabel = new JLabel("Source Folder :");
+		this.srcPathField = new JTextField("/home/bhawani/Desktop/print/testfolder");
+		this.srcPathField.setOpaque(false);
+		this.browseButton = new JButton("Browse");
 
-		fileTypeLabel = new JLabel("File Types :");
-		fileTypeField = new JTextField("java");
+		this.fileTypeLabel = new JLabel("File Types :");
+		this.fileTypeField = new JTextField("java");
 
-		licenseArea = new JTextArea(10, 80);
-		licenseScrollPane = new JScrollPane(licenseArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		this.licenseArea = new JTextArea(10, 80);
+		this.licenseScrollPane = new JScrollPane(this.licenseArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-		recursiveBox = new JCheckBox("Recursive");
-		recursiveBox.setToolTipText("If Selected, Program Will Also Scan Underlying Directories");
-		recursiveBox.setSelected(true);
-		includeLicenseBox = new JCheckBox("Include License");
-		includeLicenseBox.setToolTipText("Select This If You Want To Add \"Licesnse.txt\" To Source Folder");
-		includeLicenseBox.setSelected(true);
-		emptyPanel = new JPanel();
+		this.recursiveBox = new JCheckBox("Recursive");
+		this.recursiveBox.setToolTipText("If Selected, Program Will Also Scan Underlying Directories");
+		this.recursiveBox.setSelected(true);
+		this.includeLicenseBox = new JCheckBox("Include License");
+		this.includeLicenseBox.setToolTipText("Select This If You Want To Add \"Licesnse.txt\" To Source Folder");
+		this.includeLicenseBox.setSelected(true);
+		this.emptyPanel = new JPanel();
 
-		addLicenseButton = new JButton("Add");
-		replaceLicenseButton = new JButton("Replace");
-		removeLicenseButton = new JButton("Remove");
+		this.addLicenseButton = new JButton("Add");
+		this.replaceLicenseButton = new JButton("Replace");
+		this.removeLicenseButton = new JButton("Remove");
 
-		bottomLabel = new JLabel("I Am Ready To Rock");
-		mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+		this.bottomLabel = new JLabel("I Am Ready To Rock");
+		this.mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 	}
 
 	private void addComponents() {
 
-		mainGUILogger.entry();
-		fileMenu.add(selectLicenseItem);
-		fileMenu.add(customLicenseItem);
-		fileMenu.add(separator);
-		fileMenu.add(restartItem);
-		fileMenu.add(exitItem);
-		helpMenu.add(aboutItem);
-		mainMenuBar.add(fileMenu);
-		mainMenuBar.add(helpMenu);
+		this.mainGUILogger.entry();
+		this.fileMenu.add(this.selectLicenseItem);
+		this.fileMenu.add(this.customLicenseItem);
+		this.fileMenu.add(this.separator);
+		this.fileMenu.add(this.restartItem);
+		this.fileMenu.add(this.exitItem);
+		this.helpMenu.add(this.aboutItem);
+		this.mainMenuBar.add(this.fileMenu);
+		this.mainMenuBar.add(this.helpMenu);
 
-		Layout.add(mainPanel, locationLabel, 0, ++yPosition, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE);
-		Layout.add(mainPanel, srcPathField, 1, yPosition, 5, 1, 100, 0, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
-		Layout.add(mainPanel, browseButton, 6, yPosition, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE);
+		Layout.add(this.mainPanel, this.locationLabel, 0, ++this.yPosition, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE);
+		Layout.add(this.mainPanel, this.srcPathField, 1, this.yPosition, 5, 1, 100, 0, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
+		Layout.add(this.mainPanel, this.browseButton, 6, this.yPosition, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE);
 
-		Layout.add(mainPanel, fileTypeLabel, 0, ++yPosition, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE);
-		Layout.add(mainPanel, fileTypeField, 1, yPosition, 6, 1, 100, 0, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
+		Layout.add(this.mainPanel, this.fileTypeLabel, 0, ++this.yPosition, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE);
+		Layout.add(this.mainPanel, this.fileTypeField, 1, this.yPosition, 6, 1, 100, 0, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
 
-		Layout.add(mainPanel, licenseScrollPane, 0, ++yPosition, 7, 1, 100, 100, GridBagConstraints.EAST, GridBagConstraints.BOTH);
+		Layout.add(this.mainPanel, this.licenseScrollPane, 0, ++this.yPosition, 7, 1, 100, 100, GridBagConstraints.EAST, GridBagConstraints.BOTH);
 
-		Layout.add(mainPanel, recursiveBox, 0, ++yPosition, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE);
-		Layout.add(mainPanel, includeLicenseBox, 1, yPosition, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE);
-		Layout.add(mainPanel, emptyPanel, 2, yPosition, 2, 1, 100, 0, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
-		Layout.add(mainPanel, addLicenseButton, 4, yPosition, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE);
-		Layout.add(mainPanel, replaceLicenseButton, 5, yPosition, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE);
-		Layout.add(mainPanel, removeLicenseButton, 6, yPosition, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE);
+		Layout.add(this.mainPanel, this.recursiveBox, 0, ++this.yPosition, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE);
+		Layout.add(this.mainPanel, this.includeLicenseBox, 1, this.yPosition, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE);
+		Layout.add(this.mainPanel, this.emptyPanel, 2, this.yPosition, 2, 1, 100, 0, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
+		Layout.add(this.mainPanel, this.addLicenseButton, 4, this.yPosition, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE);
+		Layout.add(this.mainPanel, this.replaceLicenseButton, 5, this.yPosition, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE);
+		Layout.add(this.mainPanel, this.removeLicenseButton, 6, this.yPosition, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE);
 
-		Layout.add(mainPanel, bottomLabel, 0, ++yPosition, 7, 1, 100, 0, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(0, 2, 0, 0));
+		Layout.add(this.mainPanel, this.bottomLabel, 0, ++this.yPosition, 7, 1, 100, 0, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(0, 2, 0, 0));
 
-		this.add(mainPanel);
-		this.setJMenuBar(mainMenuBar);
-		mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+		this.add(this.mainPanel);
+		this.setJMenuBar(this.mainMenuBar);
+		this.mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 
 	}
 
 	private void themeing() {
 
-		mainGUILogger.entry();
+		this.mainGUILogger.entry();
 		Border border = BorderFactory.createEtchedBorder(EtchedBorder.RAISED, new Color(0, 0, 0, 255), new Color(100, 100, 100, 0));
 		Color color = new Color(0, 0, 0, 0);
 
-		mainPanel.setOpaque(false);
-		mainPanel.setBackground(new Color(51, 181, 229));
+		this.mainPanel.setOpaque(false);
+		this.mainPanel.setBackground(new Color(51, 181, 229));
 
-		srcPathField.setOpaque(false);
-		srcPathField.setForeground(Color.BLACK);
-		srcPathField.setBackground(color);
+		this.srcPathField.setOpaque(false);
+		this.srcPathField.setForeground(Color.BLACK);
+		this.srcPathField.setBackground(color);
 
-		fileTypeField.setOpaque(false);
-		fileTypeField.setForeground(Color.BLACK);
-		fileTypeField.setBackground(color);
+		this.fileTypeField.setOpaque(false);
+		this.fileTypeField.setForeground(Color.BLACK);
+		this.fileTypeField.setBackground(color);
 
-		licenseArea.setOpaque(false);
-		licenseArea.setForeground(Color.BLACK);
-		licenseArea.setBackground(color);
+		this.licenseArea.setOpaque(false);
+		this.licenseArea.setForeground(Color.BLACK);
+		this.licenseArea.setBackground(color);
 
-		licenseScrollPane.getViewport().setBorder(null);
-		licenseScrollPane.setOpaque(false);
-		licenseScrollPane.setBackground(color);
-		licenseScrollPane.getViewport().setOpaque(false);
-		licenseScrollPane.setViewportBorder(fileTypeField.getBorder());
+		this.licenseScrollPane.getViewport().setBorder(null);
+		this.licenseScrollPane.setOpaque(false);
+		this.licenseScrollPane.setBackground(color);
+		this.licenseScrollPane.getViewport().setOpaque(false);
+		this.licenseScrollPane.setViewportBorder(this.fileTypeField.getBorder());
 
-		emptyPanel.setOpaque(false);
+		this.emptyPanel.setOpaque(false);
 
-		bottomLabel.setBorder(border);
-		mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+		this.bottomLabel.setBorder(border);
+		this.mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 	}
 
 	private void addEvents() {
 
-		mainGUILogger.entry();
-		addWindowListener(new WindowAdapter() {
+		this.mainGUILogger.entry();
+		this.addWindowListener(new WindowAdapter() {
 
+			@Override
 			public void windowClosing(WindowEvent e) {
-				windowClosingEvent();
+				MainGUI.this.windowClosingEvent();
 			}
 		});
 
-		selectLicenseItem.addActionListener(new ActionListener() {
+		this.selectLicenseItem.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				javax.swing.SwingUtilities.invokeLater(new Runnable() {
+					@Override
 					public void run() {
-						selectLicenseItemAction();
+						MainGUI.this.selectLicenseItemAction();
 					}
 				});
 
 			}
 		});
 
-		customLicenseItem.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				customLicenseItemAction();
-			}
-		});
-		
-		restartItem.addActionListener(new ActionListener() {
+		this.customLicenseItem.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				restartButtonAction();
+				MainGUI.this.customLicenseItemAction();
 			}
 		});
 
-		exitItem.addActionListener(new ActionListener() {
+		this.restartItem.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				windowClosingEvent();
+				MainGUI.this.restartButtonAction();
 			}
 		});
 
-		aboutItem.addActionListener(new ActionListener() {
+		this.exitItem.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				aboutItemAction();
+				MainGUI.this.windowClosingEvent();
 			}
 		});
 
-		browseButton.addActionListener(new ActionListener() {
+		this.aboutItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainGUI.this.aboutItemAction();
+			}
+		});
+
+		this.browseButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					browseButtonAction();
+					MainGUI.this.browseButtonAction();
 				} catch (IOException e1) {
-					mainGUILogger.error("Error In Getting Path", e1);
-					ExceptionLogger.loggerIOException(mainGUILogger, e1);
+					MainGUI.this.mainGUILogger.error("Error In Getting Path", e1);
+					ExceptionLogger.loggerIOException(MainGUI.this.mainGUILogger, e1);
 				}
 
 			}
 		});
 
-		addLicenseButton.addActionListener(new ActionListener() {
+		this.addLicenseButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				addLicenseButtonAction();
+				MainGUI.this.addLicenseButtonAction();
 			}
 		});
 
-		removeLicenseButton.addActionListener(new ActionListener() {
+		this.removeLicenseButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				removeLicenseButtonAction();
+				MainGUI.this.removeLicenseButtonAction();
 			}
 		});
-		mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+		this.mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 	}
 
 	private void windowClosingEvent() {
-		mainGUILogger.entry();
+		this.mainGUILogger.entry();
 		int choice = JOptionPane.showConfirmDialog(this, "Calotes Will Be Closed !!!\n Are You Sure ?", "Exiting !!!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (choice == JOptionPane.YES_OPTION) {
 			DeleteTempFiles.deletetempFiles();
-			mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+			this.mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 			System.exit(0);
 		}
-		mainGUILogger.exit("Program Not Closed");
+		this.mainGUILogger.exit("Program Not Closed");
 	}
 
 	private void selectLicenseItemAction() {
-		mainGUILogger.entry();
-		new LicenseChooserDialog(this, bufferedImage);
-		mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+		this.mainGUILogger.entry();
+		new LicenseChooserDialog(this, this.bufferedImage);
+		this.mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 	}
-	
-	private void customLicenseItemAction(){
-		mainGUILogger.entry();
-		new CustomLicenseDialog(this, bufferedImage);
-		mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+
+	private void customLicenseItemAction() {
+		this.mainGUILogger.entry();
+		new CustomLicenseDialog(this, this.bufferedImage);
+		this.mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 	}
 
 	private void aboutItemAction() {
-		mainGUILogger.entry();
-		new AboutDialog(this, bufferedImage, fileTypeField.getBorder());
-		mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+		this.mainGUILogger.entry();
+		new AboutDialog(this, this.bufferedImage, this.fileTypeField.getBorder());
+		this.mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 	}
 
 	private void restartButtonAction() {
-		mainGUILogger.entry();
+		this.mainGUILogger.entry();
 		DeleteTempFiles.deletetempFiles();
 		try {
 			String java = System.getProperty("java.home") + FileNames.SEPARATOR + "bin" + FileNames.SEPARATOR + "java";
@@ -384,42 +389,42 @@ public class MainGUI extends JFrame {
 					try {
 						Runtime.getRuntime().exec(cmd.toString());
 					} catch (IOException e) {
-						mainGUILogger.error("Error In Re-Starting Application", e);
-						ExceptionLogger.loggerIOException(mainGUILogger, e);
+						MainGUI.this.mainGUILogger.error("Error In Re-Starting Application", e);
+						ExceptionLogger.loggerIOException(MainGUI.this.mainGUILogger, e);
 					}
 				}
 			});
-			mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+			this.mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 			System.exit(0);
 		} catch (Exception e) {
-			mainGUILogger.error("Error In Restarting Application", e);
-			ExceptionLogger.loggerException(mainGUILogger, e);
-			mainGUILogger.exit(LoggerValues.UNSUCCESSFUL_EXIT);
+			this.mainGUILogger.error("Error In Restarting Application", e);
+			ExceptionLogger.loggerException(this.mainGUILogger, e);
+			this.mainGUILogger.exit(LoggerValues.UNSUCCESSFUL_EXIT);
 		}
 	}
 
 	private void browseButtonAction() throws IOException {
-		mainGUILogger.entry();
+		this.mainGUILogger.entry();
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		fileChooser.setDialogTitle("Select The Source Directory");
 		if (fileChooser.showDialog(null, "Select") == JFileChooser.APPROVE_OPTION) {
-			srcPathField.setText(fileChooser.getSelectedFile().getCanonicalPath());
+			this.srcPathField.setText(fileChooser.getSelectedFile().getCanonicalPath());
 		}
-		mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+		this.mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 	}
 
 	private void addLicenseButtonAction() {
-		mainGUILogger.entry();
-		if (srcPathField.getText().trim().equals("")) {
+		this.mainGUILogger.entry();
+		if (this.srcPathField.getText().trim().equals("")) {
 			JOptionPane.showMessageDialog(this, "Source Folder Not Selected.\nPlease Select A Source Folder.", "Error !!!", JOptionPane.ERROR_MESSAGE);
-		} else if (fileTypeField.getText().trim().equals("")) {
+		} else if (this.fileTypeField.getText().trim().equals("")) {
 			JOptionPane.showMessageDialog(this, "No File Type Is Selected.\nPlease Type Atleast One FileType.", "Error !!!", JOptionPane.ERROR_MESSAGE);
-		} else if (licenseArea.getText().trim().equals("")) {
+		} else if (this.licenseArea.getText().trim().equals("")) {
 			JOptionPane.showMessageDialog(this, "License Field Is Empty. Please Specify A License", "Error !!!", JOptionPane.ERROR_MESSAGE);
 		} else {
-			String[] fileTypes = fileTypeField.getText().split(" ");
+			String[] fileTypes = this.fileTypeField.getText().split(" ");
 			StringBuffer buffer = new StringBuffer("");
 			boolean found = false;
 			for (int i = 0; i < fileTypes.length; ++i) {
@@ -443,43 +448,43 @@ public class MainGUI extends JFrame {
 					return;
 				}
 			}
-			GenerateTempLicense.tempLicenseTemplate(licenseArea.getText());
+			GenerateTempLicense.tempLicenseTemplate(this.licenseArea.getText());
 			File tempLic = new File(FileNames.TEMP_PATH + FileNames.SEPARATOR + FileNames.TEMP_LIC);
-			if (includeLicenseBox.isSelected() && !tempLic.exists()) {
-				GenerateTempLicense.tempLicenseFromString(licenseArea.getText());
+			if (this.includeLicenseBox.isSelected() && !tempLic.exists()) {
+				GenerateTempLicense.tempLicenseFromString(this.licenseArea.getText());
 			}
-			AddLicense.insertLicense(srcPathField.getText(), new ArrayList<String>(Arrays.asList(fileTypes)), recursiveBox.isSelected(), includeLicenseBox.isSelected());
+			AddLicense.insertLicense(this.srcPathField.getText(), new ArrayList<String>(Arrays.asList(fileTypes)), this.recursiveBox.isSelected(), this.includeLicenseBox.isSelected());
 			DeleteTempFiles.deletetempFiles();
 		}
-		mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+		this.mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 	}
 
 	private void removeLicenseButtonAction() {
-		mainGUILogger.entry();
-		if (srcPathField.getText().trim().equals("")) {
+		this.mainGUILogger.entry();
+		if (this.srcPathField.getText().trim().equals("")) {
 			JOptionPane.showMessageDialog(this, "Source Folder Not Selected.\nPlease Select A Source Folder.", "Error !!!", JOptionPane.ERROR_MESSAGE);
-			mainGUILogger.exit("Source Folder Not Selected");
-		} else if (fileTypeField.getText().trim().equals("")) {
+			this.mainGUILogger.exit("Source Folder Not Selected");
+		} else if (this.fileTypeField.getText().trim().equals("")) {
 			JOptionPane.showMessageDialog(this, "No File Type Is Selected.\nPlease Type Atleast One FileType.", "Error !!!", JOptionPane.ERROR_MESSAGE);
-			mainGUILogger.exit("No File Type Is Selected");
+			this.mainGUILogger.exit("No File Type Is Selected");
 		} else {
-			String[] fileTypes = fileTypeField.getText().split(" ");
+			String[] fileTypes = this.fileTypeField.getText().split(" ");
 			for (int i = 0; i < fileTypes.length; ++i) {
 				fileTypes[i].trim();
 				if (fileTypes[i].startsWith(".")) {
 					fileTypes[i] = fileTypes[i].substring(fileTypes[i].indexOf('.') + 1);
 				}
 			}
-			RemoveLicense.removeLicense(srcPathField.getText(), new ArrayList<String>(Arrays.asList(fileTypes)));
-			mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+			RemoveLicense.removeLicense(this.srcPathField.getText(), new ArrayList<String>(Arrays.asList(fileTypes)), this.recursiveBox.isSelected());
+			this.mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 		}
 	}
 
 	public String getText() {
-		return licenseArea.getText();
+		return this.licenseArea.getText();
 	}
 
 	public void setText(String text) {
-		licenseArea.setText(text);
+		this.licenseArea.setText(text);
 	}
 }

@@ -11,14 +11,15 @@ import java.util.ArrayList;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.bhawanisingh.calotes.api.util.FileNames;
 import org.bhawanisingh.calotes.api.logging.ExceptionLogger;
 import org.bhawanisingh.calotes.api.logging.LoggerValues;
+import org.bhawanisingh.calotes.api.util.FileNames;
 
 public abstract class AddLicense {
 	private static Logger addLicenseLogger = LogManager.getLogger(AddLicense.class);
+
 	public static void insertLicense(String sourceFolder, ArrayList<String> fileTypes, boolean recursive, boolean addCopy) {
-		addLicenseLogger.entry();
+		AddLicense.addLicenseLogger.entry();
 		File tempFile;
 		File rootDir = new File(sourceFolder);
 		String[] childDir = rootDir.list();
@@ -36,11 +37,11 @@ public abstract class AddLicense {
 				srcReader.close();
 
 			} catch (FileNotFoundException e) {
-				addLicenseLogger.error("Source File /License.txt Not Found", e);
-				ExceptionLogger.loggerFileNotFoundException(addLicenseLogger, e);
+				AddLicense.addLicenseLogger.error("Source File /License.txt Not Found", e);
+				ExceptionLogger.loggerFileNotFoundException(AddLicense.addLicenseLogger, e);
 			} catch (IOException e) {
-				addLicenseLogger.error("Source File /License.txt Not Found", e);
-				ExceptionLogger.loggerIOException(addLicenseLogger, e);
+				AddLicense.addLicenseLogger.error("Source File /License.txt Not Found", e);
+				ExceptionLogger.loggerIOException(AddLicense.addLicenseLogger, e);
 			}
 
 		}
@@ -52,34 +53,37 @@ public abstract class AddLicense {
 				name = name.trim();
 				if (fileTypes.contains(name)) {
 					if ("java".equals(name) || "cs".equals(name) || "c".equals(name) || "i".equals(name) || "ii".equals(name)) {
-						javaTypeAddLicense(tempFile);
+						AddLicense.javaTypeAddLicense(tempFile);
 
 					} else if ("m".equals(name) || "mi".equals(name) || "mii".equals(name) || "M".equals(name) || "mm".equals(name)) {
-						javaTypeAddLicense(tempFile);
+						AddLicense.javaTypeAddLicense(tempFile);
 
 					} else if ("h".equals(name) || "cc".equals(name) || "cp".equals(name) || "cxx".equals(name) || "cpp".equals(name)) {
-						javaTypeAddLicense(tempFile);
+						AddLicense.javaTypeAddLicense(tempFile);
 
 					} else if ("CPP".equals(name) || "c++".equals(name) || "C".equals(name) || "hh".equals(name) || "H".equals(name)) {
-						javaTypeAddLicense(tempFile);
+						AddLicense.javaTypeAddLicense(tempFile);
 
 					} else if ("hp".equals(name) || "hxx".equals(name) || "hpp".equals(name) || "HPP".equals(name) || "h++".equals(name) || "tcc".equals(name)) {
-						javaTypeAddLicense(tempFile);
+						AddLicense.javaTypeAddLicense(tempFile);
+
+					} else if ("js".equals(name)) {
+						AddLicense.javaTypeAddLicense(tempFile);
 
 					} else if ("py".equals(name)) {
-						pythonTypeAddLicense(tempFile, "\"\"\"", "\"\"\"");
+						AddLicense.pythonTypeAddLicense(tempFile, "\"\"\"", "\"\"\"");
 
 					}
 				}
 			} else if (recursive) {
-				insertLicense(tempFile.getAbsolutePath(), fileTypes, recursive, false);
+				AddLicense.insertLicense(tempFile.getAbsolutePath(), fileTypes, recursive, false);
 			}
 		}
-		addLicenseLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+		AddLicense.addLicenseLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 	}
 
 	private static void javaTypeAddLicense(File tempFile) {
-		addLicenseLogger.entry();
+		AddLicense.addLicenseLogger.entry();
 		try {
 			File temp = new File(tempFile.getParent() + FileNames.SEPARATOR + "TEMPfile");
 			BufferedWriter tempwriter = new BufferedWriter(new FileWriter(temp));
@@ -103,16 +107,16 @@ public abstract class AddLicense {
 			licenseReader.close();
 			tempFile.delete();
 			temp.renameTo(tempFile);
-			addLicenseLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+			AddLicense.addLicenseLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 		} catch (IOException e) {
-			addLicenseLogger.error("Error In Adding License To File", e);
-			ExceptionLogger.loggerIOException(addLicenseLogger, e);
-			addLicenseLogger.exit(LoggerValues.UNSUCCESSFUL_EXIT);
+			AddLicense.addLicenseLogger.error("Error In Adding License To File", e);
+			ExceptionLogger.loggerIOException(AddLicense.addLicenseLogger, e);
+			AddLicense.addLicenseLogger.exit(LoggerValues.UNSUCCESSFUL_EXIT);
 		}
 	}
 
 	static void pythonTypeAddLicense(File tempFile, String STARTING_PATTERN, String ENDING_PATTERN) {
-		addLicenseLogger.entry();
+		AddLicense.addLicenseLogger.entry();
 		try {
 			File temp = new File(tempFile.getParent() + FileNames.SEPARATOR + "TEMPfile");
 			BufferedWriter tempwriter = new BufferedWriter(new FileWriter(temp));
@@ -150,11 +154,11 @@ public abstract class AddLicense {
 			licenseReader.close();
 			tempFile.delete();
 			temp.renameTo(tempFile);
-			addLicenseLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+			AddLicense.addLicenseLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 		} catch (IOException e) {
-			addLicenseLogger.error("Error In Adding License To File", e);
-			ExceptionLogger.loggerIOException(addLicenseLogger, e);
-			addLicenseLogger.exit(LoggerValues.UNSUCCESSFUL_EXIT);
+			AddLicense.addLicenseLogger.error("Error In Adding License To File", e);
+			ExceptionLogger.loggerIOException(AddLicense.addLicenseLogger, e);
+			AddLicense.addLicenseLogger.exit(LoggerValues.UNSUCCESSFUL_EXIT);
 		}
 	}
 }

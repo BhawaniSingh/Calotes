@@ -27,8 +27,8 @@ import org.bhawanisingh.calotes.api.license.GenericLicense;
 import org.bhawanisingh.calotes.api.logging.LoggerValues;
 import org.bhawanisingh.calotes.api.util.FileNames;
 
-public class LicenseSelector extends JDialog {
-	private Logger licenseSelectorLogger = LogManager.getLogger(LicenseSelector.class.getName());
+public class LicenseGenerator extends JDialog {
+	private Logger licenseGeneratorLogger = LogManager.getLogger(LicenseGenerator.class.getName());
 
 	private static final long serialVersionUID = -1324260102680522813L;
 	private int yPosition = -1;
@@ -48,8 +48,8 @@ public class LicenseSelector extends JDialog {
 	private JButton cancelButton;
 	private GridBagLayout gridBagLayout = new GridBagLayout();
 
-	public LicenseSelector(MainGUI gui, BufferedImage bufferedImage) {
-		licenseSelectorLogger.entry();
+	public LicenseGenerator(MainGUI gui, BufferedImage bufferedImage) {
+		licenseGeneratorLogger.entry();
 		this.gui = gui;
 		this.bufferedImage = bufferedImage;
 
@@ -62,11 +62,11 @@ public class LicenseSelector extends JDialog {
 		this.setTitle(FileNames.PROGRAM_NAME + " : " + FileNames.PROGRAM_VERSION);
 		this.setLocationRelativeTo(this.gui);
 		this.setVisible(true);
-		licenseSelectorLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+		licenseGeneratorLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 	}
 
 	private void initialize() {
-		licenseSelectorLogger.entry();
+		licenseGeneratorLogger.entry();
 		mainPanel = new JPanel(new BorderLayout(5, 5)) {
 			private static final long serialVersionUID = 1L;
 
@@ -104,11 +104,11 @@ public class LicenseSelector extends JDialog {
 		emptyPanel = new JPanel();
 		okButton = new JButton("OK");
 		cancelButton = new JButton("Cancel");
-		licenseSelectorLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+		licenseGeneratorLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 	}
 
 	private void themeing() {
-		licenseSelectorLogger.entry();
+		licenseGeneratorLogger.entry();
 		Border border = BorderFactory.createLineBorder(Color.BLACK);
 		Color color = new Color(0, 0, 0, 0);
 
@@ -133,11 +133,11 @@ public class LicenseSelector extends JDialog {
 		buttonPanel.setBackground(color);
 		emptyPanel.setOpaque(false);
 		buttonPanel.setBackground(color);
-		licenseSelectorLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+		licenseGeneratorLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 	}
 
 	private void addComponents() {
-		licenseSelectorLogger.entry();
+		licenseGeneratorLogger.entry();
 		for (int i = 0; i < GenericLicense.LICENSE_FILTERING.length; ++i) {
 			yPosition = -1;
 			Layout.add(itemPanels[i], labels[i], 0, ++yPosition, 4, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
@@ -157,11 +157,11 @@ public class LicenseSelector extends JDialog {
 		mainPanel.add(itemScrollPane, BorderLayout.WEST);
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 		this.add(mainPanel);
-		licenseSelectorLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+		licenseGeneratorLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 	}
 
 	private void addEvents() {
-		licenseSelectorLogger.entry();
+		licenseGeneratorLogger.entry();
 		itemScrollPane.getHorizontalScrollBar().addAdjustmentListener(new AdjustmentListener() {
 
 			@Override
@@ -178,6 +178,6 @@ public class LicenseSelector extends JDialog {
 
 			}
 		});
-		licenseSelectorLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+		licenseGeneratorLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 	}
 }

@@ -14,11 +14,12 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.WindowConstants;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -46,193 +47,193 @@ public class CustomLicenseDialog extends JDialog {
 	private JButton templateButton;
 	private JButton okButton;
 	private JButton cancelButton;
-	
+
 	private PleaseWait pleaseWait;
 	private MainGUI gui;
-	
+
 	public CustomLicenseDialog(MainGUI gui, BufferedImage bufferedImage) {
-		customLicenseLogger.entry();
+		this.customLicenseLogger.entry();
 		this.gui = gui;
 		this.bufferedImage = bufferedImage;
-		initialize();
-		themeing();
-		addComponents();
-		addEvents();
+		this.initialize();
+		this.themeing();
+		this.addComponents();
+		this.addEvents();
 		this.setResizable(false);
 		this.setAlwaysOnTop(true);
-		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.pack();
-		pleaseWait = new PleaseWait();
+		this.pleaseWait = new PleaseWait();
 		this.setLocationRelativeTo(this.gui);
 		this.setVisible(true);
-		this.setGlassPane(pleaseWait);
-		customLicenseLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+		this.setGlassPane(this.pleaseWait);
+		this.customLicenseLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 	}
 
 	private void initialize() {
-		customLicenseLogger.entry();
-		mainPanel = new JPanel(new GridBagLayout()) {
+		this.customLicenseLogger.entry();
+		this.mainPanel = new JPanel(new GridBagLayout()) {
 
 			private static final long serialVersionUID = -8427191383496124995L;
 
+			@Override
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(bufferedImage, 0, 0, getWidth(), getHeight(), this);
+				g.drawImage(CustomLicenseDialog.this.bufferedImage, 0, 0, this.getWidth(), this.getHeight(), this);
 				g.setColor(new Color(0, 153, 204, 30));
-				g.fillRect(0, 0, getWidth(), getHeight());
+				g.fillRect(0, 0, this.getWidth(), this.getHeight());
 			}
 		};
-		emptyPanel = new JPanel();
-		licenseTextArea = new JTextArea(10, 30);
-		licenseScrollPane = new JScrollPane(licenseTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		templateTextArea = new JTextArea(10, 30);
-		templateScrollPane = new JScrollPane(templateTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		licenseButton = new JButton("License");
-		licenseButton.setToolTipText("Click To Choose License File");
-		templateButton = new JButton("Template");
-		templateButton.setToolTipText("Click To Choose Template File");
-		okButton = new JButton("OK");
-		cancelButton = new JButton("Cancel");
-		customLicenseLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+		this.emptyPanel = new JPanel();
+		this.licenseTextArea = new JTextArea(10, 30);
+		this.licenseScrollPane = new JScrollPane(this.licenseTextArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		this.templateTextArea = new JTextArea(10, 30);
+		this.templateScrollPane = new JScrollPane(this.templateTextArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		this.licenseButton = new JButton("License");
+		this.licenseButton.setToolTipText("Click To Choose License File");
+		this.templateButton = new JButton("Template");
+		this.templateButton.setToolTipText("Click To Choose Template File");
+		this.okButton = new JButton("OK");
+		this.cancelButton = new JButton("Cancel");
+		this.customLicenseLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 	}
 
 	private void themeing() {
-		customLicenseLogger.entry();
+		this.customLicenseLogger.entry();
 		Color color = new Color(0, 0, 0, 0);
 
-		mainPanel.setOpaque(false);
-		emptyPanel.setOpaque(false);
-		licenseScrollPane.setOpaque(false);
-		licenseScrollPane.getViewport().setOpaque(false);
-		licenseScrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 1), "License"));
-		licenseScrollPane.setViewportBorder(null);
-		licenseTextArea.setOpaque(false);
-		licenseTextArea.setBackground(color);
-		templateScrollPane.setOpaque(false);
-		templateScrollPane.getViewport().setOpaque(false);
-		templateScrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 1), "Template"));
-		templateScrollPane.setViewportBorder(null);
-		templateTextArea.setOpaque(false);
-		templateTextArea.setBackground(color);
-		customLicenseLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+		this.mainPanel.setOpaque(false);
+		this.emptyPanel.setOpaque(false);
+		this.licenseScrollPane.setOpaque(false);
+		this.licenseScrollPane.getViewport().setOpaque(false);
+		this.licenseScrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 1), "License"));
+		this.licenseScrollPane.setViewportBorder(null);
+		this.licenseTextArea.setOpaque(false);
+		this.licenseTextArea.setBackground(color);
+		this.templateScrollPane.setOpaque(false);
+		this.templateScrollPane.getViewport().setOpaque(false);
+		this.templateScrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 1), "Template"));
+		this.templateScrollPane.setViewportBorder(null);
+		this.templateTextArea.setOpaque(false);
+		this.templateTextArea.setBackground(color);
+		this.customLicenseLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 	}
 
 	private void addComponents() {
-		customLicenseLogger.entry();
-		Layout.add(mainPanel, templateScrollPane, 0, ++yPosition, 3, 1, 50, 100, GridBagConstraints.EAST, GridBagConstraints.BOTH);
-		Layout.add(mainPanel, licenseScrollPane, 3, yPosition, 3, 1, 50, 100, GridBagConstraints.EAST, GridBagConstraints.BOTH);
+		this.customLicenseLogger.entry();
+		Layout.add(this.mainPanel, this.templateScrollPane, 0, ++this.yPosition, 3, 1, 50, 100, GridBagConstraints.EAST, GridBagConstraints.BOTH);
+		Layout.add(this.mainPanel, this.licenseScrollPane, 3, this.yPosition, 3, 1, 50, 100, GridBagConstraints.EAST, GridBagConstraints.BOTH);
 
-		Layout.add(mainPanel, templateButton, 0, ++yPosition, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE);
-		Layout.add(mainPanel, licenseButton, 1, yPosition, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE);
-		Layout.add(mainPanel, emptyPanel, 2, yPosition, 2, 1, 100, 0, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
-		Layout.add(mainPanel, cancelButton, 4, yPosition, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE);
-		Layout.add(mainPanel, okButton, 5, yPosition, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE);
+		Layout.add(this.mainPanel, this.templateButton, 0, ++this.yPosition, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE);
+		Layout.add(this.mainPanel, this.licenseButton, 1, this.yPosition, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE);
+		Layout.add(this.mainPanel, this.emptyPanel, 2, this.yPosition, 2, 1, 100, 0, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
+		Layout.add(this.mainPanel, this.cancelButton, 4, this.yPosition, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE);
+		Layout.add(this.mainPanel, this.okButton, 5, this.yPosition, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE);
 
-		this.add(mainPanel);
-		customLicenseLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+		this.add(this.mainPanel);
+		this.customLicenseLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 	}
 
 	private void addEvents() {
-		customLicenseLogger.entry();
-		licenseButton.addActionListener(new ActionListener() {
+		this.customLicenseLogger.entry();
+		this.licenseButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				licenseButtonAction();
+				CustomLicenseDialog.this.addAction(CustomLicenseDialog.this.licenseTextArea);
 			}
 		});
 
-		templateButton.addActionListener(new ActionListener() {
+		this.templateButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				templateButtonAction();
+				CustomLicenseDialog.this.addAction(CustomLicenseDialog.this.templateTextArea);
 			}
 		});
 
-		okButton.addActionListener(new ActionListener() {
+		this.okButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				okButtonAction();
+				CustomLicenseDialog.this.okButtonAction();
 			}
 		});
 
-		cancelButton.addActionListener(new ActionListener() {
+		this.cancelButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cancelButtonAction();
+				CustomLicenseDialog.this.cancelButtonAction();
 			}
 		});
-		customLicenseLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+		this.customLicenseLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 	}
 
-	protected void licenseButtonAction() {
-		customLicenseLogger.entry();
-		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setDialogTitle("Select License File");
-		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		fileChooser.setFileFilter(new LicenseFileFilter());
-		if (fileChooser.showDialog(this, "Select") == JFileChooser.APPROVE_OPTION) {
-			licenseTextArea.setText("");
-			pleaseWait.start();
-			try {
-				BufferedReader reader = CustomLicense.generateLicense(fileChooser.getSelectedFile().getCanonicalPath());
-				String line;
-				while ((line = reader.readLine()) != null) {
-					licenseTextArea.setText(licenseTextArea.getText() + line + "\n");
-				}
-			} catch (IOException e) {
-				customLicenseLogger.error("Error In Creating Getting File Path", e);
-				ExceptionLogger.loggerIOException(customLicenseLogger, e);
-			}
-		}
-//		pleaseWait.stop();
-		customLicenseLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
-	}
-
-	protected void templateButtonAction() {
-		customLicenseLogger.entry();
+	private void addAction(JTextArea textArea) {
+		this.customLicenseLogger.entry();
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setDialogTitle("Select Template File");
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fileChooser.setFileFilter(new LicenseFileFilter());
 		if (fileChooser.showDialog(this, "Select") == JFileChooser.APPROVE_OPTION) {
-			templateTextArea.setText("");
-			pleaseWait.start();
+			textArea.setText("");
 			try {
-				BufferedReader reader = CustomLicense.generateLicense(fileChooser.getSelectedFile().getCanonicalPath());
-				String line;
-				while ((line = reader.readLine()) != null) {
-					templateTextArea.setText(templateTextArea.getText() + line + "\n");
-				}
-			} catch (IOException e) {
-				customLicenseLogger.error("Error In Creating Getting File Path", e);
-				ExceptionLogger.loggerIOException(customLicenseLogger, e);
-				pleaseWait.stop();
+				new Thread(new ReaderThread(fileChooser.getSelectedFile().getCanonicalPath(), textArea)).start();
+			} catch (IOException ioException) {
+				CustomLicenseDialog.this.customLicenseLogger.error("Error In Creating Getting File Path", ioException);
+				ExceptionLogger.loggerIOException(CustomLicenseDialog.this.customLicenseLogger, ioException);
 			}
 		}
-		pleaseWait.stop();
-		customLicenseLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+		this.customLicenseLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 	}
 
 	protected void okButtonAction() {
-		customLicenseLogger.entry();
-		if (licenseTextArea.getText().trim().equals("") || templateTextArea.getText().trim().equals("")) {
-			JOptionPane.showMessageDialog(this, "Both License And Template Are Required", "Error !!!", JOptionPane.ERROR_MESSAGE);
-			customLicenseLogger.exit(LoggerValues.UNSUCCESSFUL_EXIT);
+		this.customLicenseLogger.entry();
+		if (this.licenseTextArea.getText().trim().equals("") ||
+				this.templateTextArea.getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(this, "Both License And Template Are Required",
+					"Error !!!", JOptionPane.ERROR_MESSAGE);
+			this.customLicenseLogger.exit(LoggerValues.UNSUCCESSFUL_EXIT);
 		} else {
-			CustomLicense.generateLicenseFile(licenseTextArea.getText());
-			gui.setText(templateTextArea.getText());
+			CustomLicense.generateLicenseFile(this.licenseTextArea.getText());
+			this.gui.setText(this.templateTextArea.getText());
 			this.dispose();
-			customLicenseLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
-			}
+			this.customLicenseLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+		}
 	}
 
 	protected void cancelButtonAction() {
-		customLicenseLogger.entry();
+		this.customLicenseLogger.entry();
 		this.dispose();
-		customLicenseLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+		this.customLicenseLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
+	}
+
+	class ReaderThread implements Runnable {
+
+		String fileName;
+		JTextArea textArea;
+
+		public ReaderThread(String fileName, JTextArea textArea) {
+			this.fileName = fileName;
+			this.textArea = textArea;
+		}
+
+		@Override
+		public void run() {
+			CustomLicenseDialog.this.pleaseWait.start();
+			try {
+				BufferedReader reader = CustomLicense.generateLicense(this.fileName);
+				String line;
+				while ((line = reader.readLine()) != null) {
+					this.textArea.setText(this.textArea.getText() + line + "\n");
+				}
+			} catch (IOException e) {
+				CustomLicenseDialog.this.customLicenseLogger.error("Error In Creating Getting File Path", e);
+				ExceptionLogger.loggerIOException(CustomLicenseDialog.this.customLicenseLogger, e);
+			}
+			CustomLicenseDialog.this.pleaseWait.stop();
+		}
+
 	}
 }

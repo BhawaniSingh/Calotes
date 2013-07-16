@@ -24,10 +24,10 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
-public class PleaseWait extends JComponent implements Runnable, MouseListener, KeyListener,FocusListener {
+public class PleaseWait extends JComponent implements Runnable, MouseListener, KeyListener, FocusListener {
 
 	private static final long serialVersionUID = -3781071463506069338L;
-	private static Paint gradient = new GradientPaint(10f, 0f, Color.BLACK,21f, 0f, Color.DARK_GRAY);
+	private static Paint gradient = new GradientPaint(10f, 0f, Color.BLACK, 21f, 0f, Color.DARK_GRAY);
 	private Area[] tickerOuter = null;
 	private Area[] tickerInner = null;
 	private boolean cont;
@@ -35,13 +35,13 @@ public class PleaseWait extends JComponent implements Runnable, MouseListener, K
 	private JLabel focus;
 
 	public PleaseWait() {
-		focus = new JLabel();
-		focus.setOpaque(false);
-		this.add(focus);
+		this.focus = new JLabel();
+		this.focus.setOpaque(false);
+		this.add(this.focus);
 	}
 
 	public void stop() {
-		cont = false;
+		this.cont = false;
 		this.removeKeyListener(this);
 		this.removeMouseListener(this);
 		this.removeFocusListener(this);
@@ -49,47 +49,48 @@ public class PleaseWait extends JComponent implements Runnable, MouseListener, K
 	}
 
 	public void start() {
-		cont = true;
+		this.cont = true;
 		this.addKeyListener(this);
 		this.addMouseListener(this);
 		this.addFocusListener(this);
-		focus.requestFocusInWindow();
-		tickerOuter = buildTicker(true);
-		tickerInner = buildTicker(false);
+		this.focus.requestFocusInWindow();
+		this.tickerOuter = this.buildTicker(true);
+		this.tickerInner = this.buildTicker(false);
 		this.setVisible(true);
-		waitThread = new Thread(this);
-		waitThread.start();
+		this.waitThread = new Thread(this);
+		System.out.println("running");
+		this.waitThread.start();
+		System.out.println("running35343");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Runnable#run()
-	 */
+	@Override
 	public void run() {
-		while (cont) {
+		System.out.println("Start running");
+		while (this.cont) {
+			System.out.println("I am running");
 			try {
 				Thread.sleep(100);
-				rotateTicker();
-				repaint();
+				this.rotateTicker();
+				this.repaint();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			synchronized (this) {
-
-				if (!isShowing()) {
-					cont = false;
+				if (!this.isShowing()) {
+					this.cont = false;
 				}
 			}
 		}
 	}
 
+	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		paintComponents(g);
+		this.paintComponents(g);
 		g.dispose();
 	}
 
+	@Override
 	public void paintComponents(Graphics g) {
 		Graphics2D graphics = (Graphics2D) g;
 		graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
@@ -100,14 +101,14 @@ public class PleaseWait extends JComponent implements Runnable, MouseListener, K
 		graphics.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
 		graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
-		graphics.setFont(new Font(getFont().getName(), Font.ITALIC, 50));
+		graphics.setFont(new Font(this.getFont().getName(), Font.ITALIC, 50));
 		graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.1f));
-        graphics.setPaint(gradient);
+		graphics.setPaint(PleaseWait.gradient);
 
 		for (int i = 0; i < 11; i++) {
 			graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, i * 0.1f));
-			graphics.fill(tickerOuter[i]);
-			graphics.fill(tickerInner[i]);
+			graphics.fill(this.tickerOuter[i]);
+			graphics.fill(this.tickerInner[i]);
 
 		}
 		Toolkit.getDefaultToolkit().sync();
@@ -117,10 +118,10 @@ public class PleaseWait extends JComponent implements Runnable, MouseListener, K
 	private void rotateTicker() {
 		int barsCount = 11;
 		Area tempOuter = this.tickerOuter[0];
-		Area tempInner = this.tickerInner[barsCount-1];
-		for (int i = 0; i < barsCount - 1; ++i) {
-			this.tickerOuter[i] = tickerOuter[i + 1];
-			this.tickerInner[barsCount-(i+1)] = tickerInner[barsCount-(i+2)];
+		Area tempInner = this.tickerInner[barsCount - 1];
+		for (int i = 0; i < (barsCount - 1); ++i) {
+			this.tickerOuter[i] = this.tickerOuter[i + 1];
+			this.tickerInner[barsCount - (i + 1)] = this.tickerInner[barsCount - (i + 2)];
 		}
 		this.tickerOuter[barsCount - 1] = tempOuter;
 		this.tickerInner[0] = tempInner;
@@ -133,18 +134,18 @@ public class PleaseWait extends JComponent implements Runnable, MouseListener, K
 		AffineTransform toBorder;
 		AffineTransform toCircle;
 		Area[] ticker = new Area[barsCount];
-		Point2D.Double center = new Point2D.Double((double) getWidth() / 2, (double) getHeight() / 2);
-		double fixedAngle = 2.0 * Math.PI / ((double) barsCount);
+		Point2D.Double center = new Point2D.Double((double) this.getWidth() / 2, (double) this.getHeight() / 2);
+		double fixedAngle = (2.0 * Math.PI) / (barsCount);
 
-		for (double i = 0.0; i < (double) barsCount; i++) {
-			Area primitive = buildPrimitive(outer);
+		for (double i = 0.0; i < barsCount; i++) {
+			Area primitive = this.buildPrimitive(outer);
 			toCenter = AffineTransform.getTranslateInstance(center.getX(), center.getY());
-			if(outer){
+			if (outer) {
 				toBorder = AffineTransform.getTranslateInstance(60, 20.0);
-			}else{
+			} else {
 				toBorder = AffineTransform.getTranslateInstance(20, -10.0);
 			}
-			
+
 			toCircle = AffineTransform.getRotateInstance(-i * fixedAngle, center.getX(), center.getY());
 
 			AffineTransform toWheel = new AffineTransform();
@@ -173,7 +174,6 @@ public class PleaseWait extends JComponent implements Runnable, MouseListener, K
 			head = new Ellipse2D.Double(0, 0, 6, 6);
 			tail = new Ellipse2D.Double(15, 0, 6, 6);
 		}
-		
 
 		Area tick = new Area(body);
 		tick.add(new Area(head));
@@ -181,42 +181,61 @@ public class PleaseWait extends JComponent implements Runnable, MouseListener, K
 		return tick;
 	}
 
+	@Override
 	public void keyTyped(KeyEvent e) {
 		System.err.print(e);
 	}
 
+	@Override
 	public void keyPressed(KeyEvent e) {
 	}
 
+	@Override
 	public void keyReleased(KeyEvent e) {
 	}
 
+	@Override
 	public void mouseClicked(MouseEvent e) {
 	}
 
+	@Override
 	public void mousePressed(MouseEvent e) {
 	}
 
+	@Override
 	public void mouseReleased(MouseEvent e) {
 	}
 
+	@Override
 	public void mouseEntered(MouseEvent e) {
 	}
 
+	@Override
 	public void mouseExited(MouseEvent e) {
 	}
 
-	public void focusGained(FocusEvent e) {	
+	@Override
+	public void focusGained(FocusEvent e) {
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
 	 */
 	@Override
 	public void focusLost(FocusEvent e) {
-		if(isVisible()){
-			focus.requestFocusInWindow();
+		if (this.isVisible()) {
+			this.focus.requestFocusInWindow();
 		}
-		
+
 	}
+
+	/**
+	 * @return the waitThread
+	 */
+	public Thread getWaitThread() {
+		return this.waitThread;
+	}
+
 }

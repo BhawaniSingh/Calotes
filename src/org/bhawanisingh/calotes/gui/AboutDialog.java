@@ -262,7 +262,6 @@ public class AboutDialog extends JDialog {
 			builder.append("\n\t</ul>");
 		}
 		builder.append("\n</html>");
-		System.err.println(builder);
 		developerPane.setText(builder.toString());
 		aboutDialogLogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 		;

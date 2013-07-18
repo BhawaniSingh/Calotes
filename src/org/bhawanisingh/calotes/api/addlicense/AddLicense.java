@@ -85,7 +85,7 @@ public abstract class AddLicense {
 	private static void javaTypeAddLicense(File tempFile) {
 		AddLicense.addLicenseLogger.entry();
 		try {
-			File temp = new File(tempFile.getParent() + FileNames.SEPARATOR + "TEMPfile");
+			File temp = new File(tempFile.getParent() + FileNames.SEPARATOR + "TEMP_FILE");
 			BufferedWriter tempwriter = new BufferedWriter(new FileWriter(temp));
 			BufferedReader sourceReader = new BufferedReader(new FileReader(tempFile));
 			BufferedReader licenseReader = new BufferedReader(new FileReader(FileNames.TEMP_PATH + FileNames.SEPARATOR + FileNames.TEMP_LIC_TEMPLATE));

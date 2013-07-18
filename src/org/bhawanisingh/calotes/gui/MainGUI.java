@@ -46,7 +46,7 @@ import org.bhawanisingh.calotes.api.addlicense.AddLicense;
 import org.bhawanisingh.calotes.api.logging.ExceptionLogger;
 import org.bhawanisingh.calotes.api.logging.LoggerValues;
 import org.bhawanisingh.calotes.api.removelicense.RemoveLicense;
-import org.bhawanisingh.calotes.api.util.DeleteTempFiles;
+import org.bhawanisingh.calotes.api.util.Directory;
 import org.bhawanisingh.calotes.api.util.FileNames;
 import org.bhawanisingh.calotes.api.util.GenerateTempLicense;
 
@@ -326,6 +326,12 @@ public class MainGUI extends JFrame {
 				MainGUI.this.removeLicenseButtonAction();
 			}
 		});
+		this.replaceLicenseButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainGUI.this.replaceLicenseButtonAction();
+			}
+		});
 		this.mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 	}
 
@@ -333,7 +339,7 @@ public class MainGUI extends JFrame {
 		this.mainGUILogger.entry();
 		int choice = JOptionPane.showConfirmDialog(this, "Calotes Will Be Closed !!!\n Are You Sure ?", "Exiting !!!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (choice == JOptionPane.YES_OPTION) {
-			DeleteTempFiles.deletetempFiles();
+			Directory.deletetempFiles();
 			this.mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 			System.exit(0);
 		}
@@ -360,7 +366,7 @@ public class MainGUI extends JFrame {
 
 	private void restartButtonAction() {
 		this.mainGUILogger.entry();
-		DeleteTempFiles.deletetempFiles();
+		Directory.deletetempFiles();
 		try {
 			String java = System.getProperty("java.home") + FileNames.SEPARATOR + "bin" + FileNames.SEPARATOR + "java";
 			List<String> args = ManagementFactory.getRuntimeMXBean().getInputArguments();
@@ -419,6 +425,8 @@ public class MainGUI extends JFrame {
 		this.mainGUILogger.entry();
 		if (this.srcPathField.getText().trim().equals("")) {
 			JOptionPane.showMessageDialog(this, "Source Folder Not Selected.\nPlease Select A Source Folder.", "Error !!!", JOptionPane.ERROR_MESSAGE);
+		} else if (!Directory.validateDirectory(this.srcPathField.getText())) {
+			JOptionPane.showMessageDialog(this, "I Am Not A Fool.\nI Know This path Doesn't Exist.\nSo Never Ever Try To Do This Again.\nPress Enter To Continue.", "Common Sense Error!!!", JOptionPane.ERROR_MESSAGE);
 		} else if (this.fileTypeField.getText().trim().equals("")) {
 			JOptionPane.showMessageDialog(this, "No File Type Is Selected.\nPlease Type Atleast One FileType.", "Error !!!", JOptionPane.ERROR_MESSAGE);
 		} else if (this.licenseArea.getText().trim().equals("")) {
@@ -454,7 +462,7 @@ public class MainGUI extends JFrame {
 				GenerateTempLicense.tempLicenseFromString(this.licenseArea.getText());
 			}
 			AddLicense.insertLicense(this.srcPathField.getText(), new ArrayList<String>(Arrays.asList(fileTypes)), this.recursiveBox.isSelected(), this.includeLicenseBox.isSelected());
-			DeleteTempFiles.deletetempFiles();
+			Directory.deletetempFiles();
 		}
 		this.mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 	}
@@ -464,6 +472,8 @@ public class MainGUI extends JFrame {
 		if (this.srcPathField.getText().trim().equals("")) {
 			JOptionPane.showMessageDialog(this, "Source Folder Not Selected.\nPlease Select A Source Folder.", "Error !!!", JOptionPane.ERROR_MESSAGE);
 			this.mainGUILogger.exit("Source Folder Not Selected");
+		} else if (!Directory.validateDirectory(this.srcPathField.getText())) {
+			JOptionPane.showMessageDialog(this, "I Am Not A Fool.\nI Know This path Doesn't Exist.\nSo Never Ever Try To Do This Again.\nPress Enter To Continue.", "Common Sense Error!!!", JOptionPane.ERROR_MESSAGE);
 		} else if (this.fileTypeField.getText().trim().equals("")) {
 			JOptionPane.showMessageDialog(this, "No File Type Is Selected.\nPlease Type Atleast One FileType.", "Error !!!", JOptionPane.ERROR_MESSAGE);
 			this.mainGUILogger.exit("No File Type Is Selected");
@@ -478,6 +488,10 @@ public class MainGUI extends JFrame {
 			RemoveLicense.removeLicense(this.srcPathField.getText(), new ArrayList<String>(Arrays.asList(fileTypes)), this.recursiveBox.isSelected());
 			this.mainGUILogger.exit(LoggerValues.SUCCESSFUL_EXIT);
 		}
+	}
+
+	private void replaceLicenseButtonAction() {
+		JOptionPane.showMessageDialog(this, "Holy Crap This Button Doesn't WORK.\nBut It Shows This Creepy Message.\nSorry !!!!!!", "Not yet Implimented", JOptionPane.ERROR_MESSAGE);
 	}
 
 	public String getText() {

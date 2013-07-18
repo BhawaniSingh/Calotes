@@ -1,6 +1,6 @@
 Calotes
-====
-All the code is licensed Under GNU GPL v3
+=======
+Licensed Under GNU GPL v3
 
 An open source application to add license to your source code.
 
